@@ -8,7 +8,7 @@ public class InicioController {
 
     @GetMapping("/")
     public String inicio() {
-        return "redirect:/citas";
+        return "/index";
     }
 
     @GetMapping("/login")
@@ -18,6 +18,6 @@ public class InicioController {
     
     @GetMapping("/usuario")
     public String usuarios() {
-        return "/usuario/listado"; // templates/usuario/listado.html
+        return "/usuario/listado"; 
     }
 }

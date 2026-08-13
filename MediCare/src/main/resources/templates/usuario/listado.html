@@ -4,10 +4,7 @@
     <body class="d-flex flex-column min-vh-100">
 
         <header th:replace="~{general/fragmentos :: header}"></header>
-        <nav th:replace="~{general/fragmentos :: navbar}"></nav>
-
         <main class="container flex-grow-1 my-3">
-            <section th:replace="~{usuario/fragmentos :: botonesAgregar}"></section>
             <section th:replace="~{usuario/fragmentos :: agregarUsuario}"></section>
             <section th:replace="~{usuario/fragmentos :: listadoUsuarios}"></section>
         </main>

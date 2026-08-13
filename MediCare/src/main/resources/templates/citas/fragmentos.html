@@ -15,7 +15,7 @@
                             Completa la información para agendar la consulta
                         </p>
                     </div>
-                    
+
                     <!-- Formulario -->
                     <form th:action="@{/citas/guardar}" th:object="${cita}" method="POST" class="was-validated">
                         <div class="card card-medicare-clean p-4 p-md-5">
@@ -45,7 +45,7 @@
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold text-dark small text-uppercase">Costo Consulta</label>
                                     <span class="input-group-text fw-bold">₡</span>
-                                    <input type="number" min="0" step="0.01" class="input-medicare-box" 
+                                    <input type="number" min="0" step="10000" class="input-medicare-box" 
                                            name="precioConsulta" placeholder="0.00" required/>
                                 </div>
                             </div>
@@ -69,13 +69,13 @@
                                         onclick="document.querySelector('#agregarCita form').reset();">
                                     <i class="fas fa-times me-2"></i>Cancelar
                                 </button>
-
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </section>
+
         <!-- FRAGMENTO: FILTROS DE BÚSQUEDA AVANZADA -->
         <section th:fragment="filtrosCitas" class="mb-4">
             <div class="container d-flex justify-content-center">
@@ -89,9 +89,9 @@
                         <a th:href="@{/citas}" class="btn btn-link btn-sm text-teal text-decoration-none fw-semibold p-0">
                             <i class="fas fa-undo-alt me-1"></i> Ver todas las citas
                         </a>
-                    </div><!-- Contenedor de filtros en una sola fila -->
+                    </div>
+                    <!-- Contenedor de filtros en una sola fila -->
                     <div class="filtros-inline">
-
                         <!-- Filtro Estado -->
                         <form th:action="@{/citas/filtrar/estado}" method="get">
                             <label class="form-label fw-bold text-dark small text-uppercase">Por Estado</label>
@@ -129,7 +129,6 @@
                                 </button>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
@@ -182,7 +181,7 @@
 
                             <!-- Especialidad -->
                             <div class="flex-fill d-flex align-items-center justify-content-center">
-                                <span class="badge badge-medicare-task rounded-pill px-3 py-2 fw-semibold" th:text="${c.areaEspecialidad}">
+                                <span class="bg-teal-light text-teal rounded-pill px-3 py-2 fw-semibold" th:text="${c.areaEspecialidad}">
                                     • Odontología
                                 </span>
                             </div>
@@ -209,7 +208,7 @@
                             <!-- Acciones -->
                             <div class="flex-fill d-flex align-items-center justify-content-center" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MEDICO')">
                                 <div class="btn-group gap-2">
-                                    <a th:href="@{/citas/editar/} + ${c.idCita}" class="btn btn-action-edit btn-sm rounded-circle" title="Editar">
+                                    <a th:href="@{/citas/modifica/} + ${c.idCita}" class="btn btn-action-edit btn-sm rounded-circle" title="Editar">
                                         <i class="fas fa-pen"></i>
                                     </a>
                                     <a th:href="@{/citas/eliminar/} + ${c.idCita}" class="btn btn-action-delete btn-sm rounded-circle" title="Eliminar"
@@ -220,16 +219,118 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Estado Vacío -->
                     <div th:if="${#lists.isEmpty(citas)}" class="text-center text-muted py-5">
                         <i class="fas fa-calendar-times fa-3x mb-3 text-teal opacity-50"></i>
                         <p class="mb-0 fw-semibold">No hay citas registradas en el agenda.</p>
                     </div>
                 </div>
-
             </div>
         </section>
 
+        <!-- Fragmento que se utiliza en la página modifica.html de Cita -->
+        <section th:fragment="editar">
+            <div class="row py-3">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <form method="POST" th:action="@{/cita/guardar}" 
+                          th:object="${cita}" class="was-validated">
+
+                        <!-- ID Oculto para que Spring JPA sepa que está actualizando y no creando una nueva -->
+                        <input type="hidden" name="idCita" th:field="*{idCita}"/>
+
+                        <!-- Botones superiores (Regresar y Guardar) -->
+                        <div class="row py-3 mb-4 bg-light rounded border">
+                            <div class="col-md-4 d-grid">
+                                <a th:href="@{/cita/listado}" class="btn btn-primary">
+                                    <i class="fas fa-arrow-left me-1"></i> [[#{accion.regresar}]]
+                                </a>
+                            </div>                                
+                            <div class="col-md-4 d-grid">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-check me-1"></i> [[#{accion.guardar}]]
+                                </button>
+                            </div>
+                        </div>                        
+
+                        <!-- Tarjeta del Formulario -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="card shadow-sm">
+                                    <div class="card-header bg-teal text-white">
+                                        <h4 class="mb-0">[[#{accion.actualizar}]] Cita Médica</h4>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <!-- Selección de Paciente / Usuario -->
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Paciente / Usuario</label>
+                                            <select name="usuario.idUsuario" th:field="*{usuario.idUsuario}"
+                                                    class="form-select" required>
+                                                <option value="" disabled>Seleccione un paciente...</option>
+                                                <option th:each="u : ${usuarios}" 
+                                                        th:value="${u.idUsuario}"
+                                                        th:text="${u.nombreCompleto}">
+                                                    Nombre Paciente
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Selección de Especialidad / Servicio -->
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Especialidad Médica</label>
+                                            <select name="especialidad.idEspecialidad" th:field="*{especialidad.idEspecialidad}"
+                                                    class="form-select" required>
+                                                <option value="" disabled>Seleccione una especialidad...</option>
+                                                <option th:each="e : ${especialidades}" 
+                                                        th:value="${e.idEspecialidad}"
+                                                        th:text="${e.nombreEspecialidad}">
+                                                    Cardiología
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Fecha de la Cita -->
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Fecha de Atención</label>
+                                            <input type="date" class="form-control" name="fechaCita" 
+                                                   th:field="*{fechaCita}" required/>
+                                        </div>
+
+                                        <!-- Hora de la Cita -->
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Hora de Atención</label>
+                                            <input type="time" class="form-control" name="horaCita" 
+                                                   th:field="*{horaCita}" required/>
+                                        </div>
+
+                                        <!-- Observaciones / Motivo de Consulta -->
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Motivo de Consulta / Observaciones</label>
+                                            <textarea class="form-control" name="motivoConsulta" 
+                                                      th:field="*{motivoConsulta}" rows="3" 
+                                                      placeholder="Escriba los detalles de la cita..."></textarea>
+                                        </div>
+
+                                        <!-- Estado de la Cita (Confirmada / Cancelada / Pendiente) -->
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Estado de la Cita</label>
+                                            <select name="estadoCita" th:field="*{estadoCita}" class="form-select">
+                                                <option value="PENDIENTE">PENDIENTE</option>
+                                                <option value="CONFIRMADA">CONFIRMADA</option>
+                                                <option value="CANCELADA">CANCELADA</option>
+                                                <option value="COMPLETADA">COMPLETADA</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
     </body>
 </html>

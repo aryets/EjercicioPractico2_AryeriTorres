@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <!-- Inclusión del fragmento HEAD -->
+    <head th:replace="~{general/fragmentos :: head}"></head>
+        <title>MediCare - Inicio</title>
+    </head>
+
+    <body class="bg-light-subtle d-flex flex-column min-vh-100">
+
+        <!-- Inclusión del fragmento HEADER -->
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="container py-5 flex-grow-1">
+
+            <!-- Hero / Banner de Bienvenida -->
+            <div class="hero-card border-0 rounded-4 p-4 p-md-5 mb-5 text-white position-relative overflow-hidden">
+                <div class="row align-items-center position-relative z-1">
+                    <div class="col-lg-8">
+                        <h1 class="display-6 fw-bold mb-2 mt-10">
+                            <i class="fas fa-heartbeat text-teal"></i>
+                            ¡Bienvenido a MediCare, <span sec:authentication="name">Usuario</span>!
+                        </h1>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="lead opacity-90 mb-1 text-teal">
+                                    <i class="fas fa-shield-alt me-1"></i> Sistema de Gestión Médica
+                                </p>
+                                <p class="text-muted mb-0">
+                                    Gestión moderna y sencilla de citas médicas y pacientes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accesos Rápidos y Módulos -->
+            <div class="row g-4">
+
+                <!-- Módulo Citas -->
+                <div class="col-md-6">
+                    <a class="text-decoration-none">
+                        <div class="card card-medicare-clean border-0 p-4 h-100 module-hover transition-all">
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3 px-2">
+                                <div>
+                                    <h3 class="fw-bold text-dark mb-1 mt-3 d-flex align-items-center gap-2">
+                                        <i class="fas fa-calendar-check text-teal"></i>
+                                        <span>Citas Médicas</span>
+                                    </h3>
+                                    <p class="text-muted small mb-0">
+                                        Agenda nuevas consultas, edita información y administra la lista de pacientes.
+                                    </p>
+                                </div> 
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Módulo Usuarios (Visibilidad restringida a ADMIN) -->
+                <div class="col-md-6" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="text-decoration-none">
+                        <div class="card card-medicare-clean border-0 p-4 h-100 module-hover transition-all">
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3 px-2">
+                                <div>
+                                    <h3 class="fw-bold text-dark mb-1 mt-3 d-flex align-items-center gap-2">
+                                        <i class="fas fa-users-cog text-teal"></i>
+                                        <span>Control de Usuarios</span>
+                                    </h3>
+                                    <p class="text-muted small mb-0">
+                                        Administra cuentas, roles y accesos del personal al sistema.
+                                    </p>
+                                </div> 
+                            </div>
+                        </div>
+                    </a>
+                </div>
+        </main>
+        <!-- Inclusión del fragmento FOOTER -->
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+    </body>
+</html>

@@ -1,30 +1,27 @@
 package MediCare.domain;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long idUsuario;
 
-    @Column(name = "nombre", length = 150)
+    @Column(name = "nombre")
     private String nombreCompleto;
 
-    @Column(name = "email", unique = true, length = 200)
+    @Column(name = "email", unique = true)
     private String correo;
 
-    @Column(name = "password", length = 255)
+    @Column(name = "password")
     private String claveAcceso;
 
     @Column(name = "activo")
     private Boolean estadoActivo = true;
-
-    @Column(name = "fecha_creacion", insertable = false, updatable = false)
-    private LocalDateTime fechaRegistro;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rol_id")
@@ -71,14 +68,6 @@ public class Usuario {
 
     public void setEstadoActivo(Boolean estadoActivo) {
         this.estadoActivo = estadoActivo;
-    }
-
-    public LocalDateTime getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(LocalDateTime fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
     }
 
     public Rol getRolAsignado() {

@@ -27,14 +27,14 @@ public class SecurityConfig {
                 // Recursos estáticos públicos
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
                 // Rutas restringidas por rol
-                .requestMatchers("/citas/nueva", "/citas/guardar", "/citas/editar/**", "/citas/eliminar/**").hasAnyRole("ADMIN", "MEDICO")
+                .requestMatchers("/citas/agregar", "/citas/guardar", "/citas/editar/**", "/citas/eliminar/**").hasAnyRole("ADMIN", "MEDICO")
                 .requestMatchers("/usuarios/**", "/roles/**").hasRole("ADMIN")
                 // Cualquier otra ruta requiere autenticación
                 .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/citas", true)
+                .defaultSuccessUrl("/", true)
                 .permitAll()
                 )
                 .logout(logout -> logout

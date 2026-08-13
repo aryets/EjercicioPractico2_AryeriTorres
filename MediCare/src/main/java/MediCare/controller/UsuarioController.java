@@ -24,20 +24,14 @@ public class UsuarioController {
 
     @GetMapping
     public String listarUsuarios(Model model) {
-        model.addAttribute("usuarios", usuarioService.obtenerTodosLosUsuarios());
-        return "usuarios/listado";
-    }
-
-    @GetMapping("/nuevo")
-    public String formularioNuevoUsuario(Model model) {
         model.addAttribute("usuario", new Usuario());
+        model.addAttribute("usuarios", usuarioService.obtenerTodosLosUsuarios());
         model.addAttribute("roles", rolService.obtenerTodosLosRoles());
-        return "usuarios/formulario";
+        return "usuario/listado";
     }
 
     @PostMapping("/guardar")
     public String guardarUsuario(@ModelAttribute("usuario") Usuario usuario) {
-        // Encriptar la contraseña si se ingresó una nueva
         if (usuario.getClaveAcceso() != null && !usuario.getClaveAcceso().isEmpty()) {
             usuario.setClaveAcceso(passwordEncoder.encode(usuario.getClaveAcceso()));
         }

@@ -26,20 +26,13 @@ public class CitaMedicaController {
         return "citas/listado";
     }
 
-    // Formulario para nueva cita
-    @GetMapping("/nueva")
-    public String formularioNuevaCita(Model model) {
-        model.addAttribute("cita", new CitaMedica());
-        return "citas/formulario";
-    }
-
-    // Formulario para editar cita
+    // Formulario para editar cita (Carga la vista modifica.html)
     @GetMapping("/editar/{id}")
     public String formularioEditarCita(@PathVariable("id") Long id, Model model) {
         CitaMedica cita = citaMedicaService.obtenerCitaPorId(id);
         if (cita != null) {
             model.addAttribute("cita", cita);
-            return "citas/formulario";
+            return "citas/modifica"; 
         }
         return "redirect:/citas";
     }
@@ -48,7 +41,7 @@ public class CitaMedicaController {
     @PostMapping("/guardar")
     public String guardarCita(@ModelAttribute("cita") CitaMedica cita) {
         citaMedicaService.guardarCita(cita);
-        return "redirect:/citas";
+        return "redirect:/citas"; 
     }
 
     // Eliminar cita
