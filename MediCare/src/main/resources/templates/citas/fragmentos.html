@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <body>
+        <!-- 1. Botón para abrir Modal de Agregar Cita -->
+        <section th:fragment="botonesAgregar" class="py-2 mb-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MEDICO')">
+                        <button type="button" class="btn btn-login w-100" data-bs-toggle="modal" data-bs-target="#agregarCita">
+                            <i class="fas fa-plus"></i> Agregar Cita
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Modal de Agregar Cita -->
+        <section th:fragment="agregarCita">
+            <div id="agregarCita" class="modal fade" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header bg-teal text-white">
+                            <h5 class="modal-title">Agregar Cita Médica</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form th:action="@{/citas/guardar}" th:object="${cita}" method="POST" class="was-validated">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre del Paciente</label>
+                                    <input type="text" class="form-control" name="nombrePaciente" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Especialidad</label>
+                                    <input type="text" class="form-control" name="areaEspecialidad" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha</label>
+                                    <input type="date" class="form-control" name="fechaCita" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Costo (₡)</label>
+                                    <input type="number" step="0.01" class="form-control" name="precioConsulta" required/>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" name="estaActiva" id="estaActiva" checked/>
+                                    <label class="form-check-label" for="estaActiva">Activa</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-login text-white" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Filtros de Búsqueda Avanzada -->
+        <section th:fragment="filtrosCitas" class="mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title text-teal">Filtros de Búsqueda</h5>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <form th:action="@{/citas/filtrar/estado}" method="get">
+                                <label class="form-label">Por Estado:</label>
+                                <div class="input-group">
+                                    <select name="activa" class="form-select">
+                                        <option value="true">Activas</option>
+                                        <option value="false">Inactivas</option>
+                                    </select>
+                                    <button class="btn btn-outline-teal" type="submit">Filtrar</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <form th:action="@{/citas/filtrar/especialidad}" method="get">
+                                <label class="form-label">Por Especialidad:</label>
+                                <div class="input-group">
+                                    <input type="text" name="especialidad" class="form-control" placeholder="Ej: General">
+                                    <button class="btn btn-outline-teal" type="submit">Buscar</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-5">
+                            <form th:action="@{/citas/filtrar/fechas}" method="get">
+                                <label class="form-label">Rango de Fechas:</label>
+                                <div class="input-group">
+                                    <input type="date" name="inicio" class="form-control" required>
+                                    <input type="date" name="fin" class="form-control" required>
+                                    <button class="btn btn-outline-teal" type="submit">Filtrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-end">
+                        <a th:href="@{/citas}" class="btn btn-link btn-sm text-decoration-none">Ver todas las citas</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Tabla de Listado de Citas -->
+        <section th:fragment="listadoCitas" id="citas">
+            <div class="container">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-teal text-white">
+                        <h4 class="mb-0">Listado de Citas Médicas</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-teal text-white">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Paciente</th>
+                                    <th>Especialidad</th>
+                                    <th>Fecha</th>
+                                    <th>Costo</th>
+                                    <th>Estado</th>
+                                    <th sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MEDICO')">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="c, contador : ${citas}">
+                                    <td th:text="${contador.count}">1</td>
+                                    <td th:text="${c.nombrePaciente}">Paciente</td>
+                                    <td th:text="${c.areaEspecialidad}">Especialidad</td>
+                                    <td th:text="${c.fechaCita}">Fecha</td>
+                                    <td th:text="${'₡' + c.precioConsulta}">Monto</td>
+                                    <td>
+                                        <span th:if="${c.estaActiva}" class="badge bg-success">Activa</span>
+                                        <span th:unless="${c.estaActiva}" class="badge bg-secondary">Inactiva</span>
+                                    </td>
+                                    <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MEDICO')">
+                                        <a th:href="@{/citas/editar/} + ${c.idCita}" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-pencil-alt"></i> Modificar
+                                        </a>
+                                        <a th:href="@{/citas/eliminar/} + ${c.idCita}" class="btn btn-danger btn-sm"
+                                           onclick="return confirm('¿Desea eliminar la cita?');">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(citas)}">
+                                    <td colspan="7" class="text-center text-muted py-3">No hay citas registradas.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

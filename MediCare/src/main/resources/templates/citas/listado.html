@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body class="d-flex flex-column min-vh-100">
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+        <nav th:replace="~{general/fragmentos :: navbar}"></nav>
+
+        <main class="container flex-grow-1 my-3">
+            <section th:replace="~{citas/fragmentos :: botonesAgregar}"></section>
+            <section th:replace="~{citas/fragmentos :: agregarCita}"></section>
+            <section th:replace="~{citas/fragmentos :: filtrosCitas}"></section>
+            <section th:replace="~{citas/fragmentos :: listadoCitas}"></section>
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+    </body>
+</html>

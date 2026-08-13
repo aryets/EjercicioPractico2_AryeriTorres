@@ -1,0 +1,86 @@
+body {
+    background-color: #f0fdfd; /* verde agua muy suave */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* ocupa toda la pantalla */
+    margin: 0;
+}
+
+.login-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 600px; /* tamaño fijo */
+}
+
+.login-header {
+    color: #00897b; /* verde agua */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.btn-login {
+    background-color: #26a69a; /* verde agua */
+    border: none;
+}
+
+.btn-login:hover {
+    background-color: #00796b; /* tono más oscuro */
+}
+
+.alert-danger {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+/* Header extendido */
+.header-medicare {
+    background: linear-gradient(90deg, #26a69a, #00897b);
+    color: #fff;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.navbar-medicare {
+    background-color: #004d40;
+}
+.navbar-medicare .nav-link {
+    color: #e0f2f1 !important;
+    font-weight: 500;
+}
+.navbar-medicare .nav-link:hover {
+    color: #ffffff !important;
+    background-color: #00695c;
+    border-radius: 6px;
+}
+
+/* Botón logout */
+.btn-logout {
+    background-color: #26a69a;
+    border: none;
+    color: #fff;
+}
+.btn-logout:hover {
+    background-color: #00796b;
+    color: #fff;
+}
+
+/* Footer extendido */
+.footer-medicare {
+    background-color: #004d40;
+    color: #e0f2f1;
+    width: 100%;
+}
+.footer-medicare p {
+    margin: 0;
+}
