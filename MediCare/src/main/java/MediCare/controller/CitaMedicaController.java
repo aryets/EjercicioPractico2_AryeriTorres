@@ -32,7 +32,7 @@ public class CitaMedicaController {
         CitaMedica cita = citaMedicaService.obtenerCitaPorId(id);
         if (cita != null) {
             model.addAttribute("cita", cita);
-            return "citas/modifica"; 
+            return "citas/editar"; 
         }
         return "redirect:/citas";
     }

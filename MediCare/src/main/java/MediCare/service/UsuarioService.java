@@ -5,7 +5,6 @@ import MediCare.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -29,12 +28,12 @@ public class UsuarioService {
 
     @Transactional
     public Usuario guardarUsuario(Usuario usuario) {
-        boolean esNuevo = (usuario.getIdUsuario() == null);
+        boolean esNuevo = (usuario.getId() == null);
         Usuario usuarioGuardado = usuarioRepository.save(usuario);
 
         // Envía el correo automático de bienvenida si es un usuario nuevo
-        if (esNuevo && usuarioGuardado.getCorreo() != null) {
-            correoService.enviarCorreoBienvenida(usuarioGuardado.getCorreo(), usuarioGuardado.getNombreCompleto());
+        if (esNuevo && usuarioGuardado.getEmail() != null) {
+            correoService.enviarCorreoBienvenida(usuarioGuardado.getEmail(), usuarioGuardado.getNombre());
         }
 
         return usuarioGuardado;

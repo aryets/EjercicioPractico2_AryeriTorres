@@ -22,15 +22,15 @@ public class UsuarioDetailsService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByCorreo(username)
+        Usuario usuario = usuarioRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el correo: " + username));
 
         String nombreRol = (usuario.getRolAsignado() != null) ? usuario.getRolAsignado().getNombreRol() : "USER";
 
         return new User(
-                usuario.getCorreo(),
-                usuario.getClaveAcceso(),
-                usuario.getEstadoActivo(),
+                usuario.getEmail(),
+                usuario.getPassword(),
+                usuario.getActivo(),
                 true, true, true,
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + nombreRol.toUpperCase()))
         );

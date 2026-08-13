@@ -17,76 +17,54 @@
                     </div>
 
                     <!-- Formulario -->
-                    <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="POST" class="was-validated" enctype="multipart/form-data">
-                        <div class="card card-medicare-clean p-4 p-md-5">
-                            <div class="row g-4">
-                                <!-- Nombre completo -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold text-dark small text-uppercase">Nombre Completo</label>
-                                    <input type="text" class="input-medicare-box" 
-                                           name="nombreCompleto" placeholder="Ej: Carlos Alvarado" required/>
-                                </div>
+                    <form action="/usuarios/guardar" method="POST">
+                        <!-- Nombre -->
+                        <div class="col-md-6">
+                            <label>Nombre</label>
+                            <input type="text" class="input-medicare-box" name="nombre" placeholder="Ej: Carlos Alvarado" required/>
+                        </div>
 
-                                <!-- Username / Identificación -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold text-dark small text-uppercase">Nombre de Usuario (Username)</label>
-                                    <input type="text" class="input-medicare-box" 
-                                           name="username" placeholder="Ej: calvarado" required/>
-                                </div>
+                        <!-- Email -->
+                        <div class="col-md-6">
+                            <label>Email</label>
+                            <input type="email" class="input-medicare-box" name="email" placeholder="correo@ejemplo.com" required/>
+                        </div>
 
-                                <!-- Correo Electrónico -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold text-dark small text-uppercase">Correo Electrónico</label>
-                                    <input type="email" class="input-medicare-box" 
-                                           name="email" placeholder="correo@ejemplo.com" required/>
-                                </div>
+                        <!-- Password -->
+                        <div class="col-md-6">
+                            <label>Contraseña</label>
+                            <input type="password" class="input-medicare-box" name="password" placeholder="••••••••" required/>
+                        </div>
 
-                                <!-- Teléfono -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold text-dark small text-uppercase">Teléfono</label>
-                                    <input type="tel" class="input-medicare-box" 
-                                           name="telefono" placeholder="8888-8888" required/>
-                                </div>
+                        <!-- Rol -->
+                        <div class="col-md-6">
+                            <label>Rol</label>
+                            <select name="rolAsignado.idRol" class="input-medicare-box form-select" required>
+                                <option value="" disabled selected>Seleccione un rol...</option>
+                                <option th:each="r : ${roles}" 
+                                        th:value="${r.idRol}" 
+                                        th:text="${r.nombreRol}">
+                                </option>
+                            </select>
+                        </div>
 
-                                <!-- Contraseña -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold text-dark small text-uppercase">Contraseña</label>
-                                    <input type="password" class="input-medicare-box" 
-                                           name="password" placeholder="••••••••" required/>
-                                </div>
+                        <!-- Activo -->
+                        <div class="form-check form-switch m-0">
+                            <input class="form-check-input" type="checkbox" name="activo" checked/>
+                            <label class="form-check-label">Usuario Activo</label>
+                        </div>
 
-                                <!-- Rol / Tipo de Usuario -->
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold text-dark small text-uppercase">Rol del Sistema</label>
-                                    <select name="rol.idRol" class="input-medicare-box form-select" required>
-                                        <option value="" disabled selected>Seleccione un rol...</option>
-                                        <option th:each="r : ${roles}" 
-                                                th:value="${r.idRol}" 
-                                                th:text="${r.nombre}">ROLE_PACIENTE</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Estado -->
-                            <div class="mt-4 p-3 bg-light rounded-4 d-flex align-items-center justify-content-between">
-                                <div class="form-check form-switch m-0">
-                                    <input class="form-check-input custom-switch-teal" type="checkbox" name="estaActivo" id="estaActivo" checked/>
-                                    <label class="form-check-label fw-bold text-dark small ms-2" for="estaActivo">Usuario Activo</label>
-                                </div>
-                            </div>
-
-                            <!-- Footer con botones -->
-                            <div class="mt-4 d-flex justify-content-end gap-2">
-                                <button class="btn btn-medicare-submit text-white px-4 py-2 fw-bold shadow-sm" type="submit">
-                                    <i class="fas fa-save me-2"></i>Guardar Usuario
-                                </button>
-                                <button type="reset" 
-                                        class="btn btn-medicare-submit text-white px-4 py-2 fw-semibold shadow-sm" 
-                                        data-bs-dismiss="modal"
-                                        onclick="document.querySelector('#agregarUsuario form').reset();">
-                                    <i class="fas fa-times me-2"></i>Cancelar
-                                </button>
-                            </div>
+                        <!-- Footer con botones -->
+                        <div class="mt-4 d-flex justify-content-end gap-2">
+                            <button class="btn btn-medicare-submit text-white px-4 py-2 fw-bold shadow-sm" type="submit">
+                                <i class="fas fa-save me-2"></i>Guardar Usuario
+                            </button>
+                            <button type="reset" 
+                                    class="btn btn-medicare-submit text-white px-4 py-2 fw-semibold shadow-sm" 
+                                    data-bs-dismiss="modal"
+                                    onclick="document.querySelector('#agregarUsuario form').reset();">
+                                <i class="fas fa-times me-2"></i>Cancelar
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -101,12 +79,13 @@
                     <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
                         <h3 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
                             <i class="fas fa-filter text-teal"></i>
-                            <span>Filtros de Búsqueda</span>
+                            <span>Filtros de Usuarios</span>
                         </h3>
                         <a th:href="@{/usuarios}" class="btn btn-link btn-sm text-teal text-decoration-none fw-semibold p-0">
                             <i class="fas fa-undo-alt me-1"></i> Ver todos los usuarios
                         </a>
                     </div>
+
                     <!-- Contenedor de filtros en una sola fila -->
                     <div class="filtros-inline">
                         <!-- Filtro Estado -->
@@ -123,11 +102,11 @@
                             </div>
                         </form>
 
-                        <!-- Filtro Búsqueda Nombre/Correo -->
-                        <form th:action="@{/usuarios/filtrar/buscar}" method="get">
-                            <label class="form-label fw-bold text-dark small text-uppercase">Por Nombre o Correo</label>
+                        <!-- Filtro Nombre -->
+                        <form th:action="@{/usuarios/filtrar/nombre}" method="get">
+                            <label class="form-label fw-bold text-dark small text-uppercase">Por Nombre</label>
                             <div class="d-flex gap-2">
-                                <input type="text" name="criterio" class="input-medicare-box" placeholder="Ej: Ana o ana@mail.com">
+                                <input type="text" name="nombre" class="input-medicare-box" placeholder="Ej: Ana Gómez">
                                 <button class="btn btn-medicare-submit text-white fw-bold" type="submit">
                                     <i class="fas fa-search"></i>
                                 </button>
@@ -138,13 +117,12 @@
                         <form th:action="@{/usuarios/filtrar/rol}" method="get">
                             <label class="form-label fw-bold text-dark small text-uppercase">Por Rol</label>
                             <div class="d-flex gap-2">
-                                <select name="idRol" class="input-medicare-box">
-                                    <option th:each="r : ${roles}" 
-                                            th:value="${r.idRol}" 
-                                            th:text="${r.nombre}">MEDICO</option>
+                                <select name="rolId" class="input-medicare-box">
+                                    <option value="" disabled selected>Seleccione un rol...</option>
+                                    <option th:each="r : ${roles}" th:value="${r.idRol}" th:text="${r.nombreRol}"></option>
                                 </select>
                                 <button class="btn btn-medicare-submit text-white fw-bold" type="submit">
-                                    <i class="fas fa-user-tag"></i>
+                                    <i class="fas fa-search"></i>
                                 </button>
                             </div>
                         </form>
@@ -157,7 +135,7 @@
         <section th:fragment="listadoUsuarios" id="usuarios" class="py-5">
             <div class="container d-flex justify-content-center">
                 <div class="w-100" style="max-width: 1500px;">
-                    <!-- Encabezado de la Sección -->
+                    <!-- Encabezado -->
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3 px-2 section-header">
                         <div>
                             <h3 class="fw-bold text-dark mb-1 mt-3 d-flex align-items-center gap-2">
@@ -165,11 +143,11 @@
                                 <span>Gestión de Usuarios</span>
                             </h3>
                             <p class="text-muted small mb-0">
-                                Administra cuentas, roles, datos de contacto y estado en el sistema.
+                                Administra cuentas, roles y estado en el sistema.
                             </p>
                         </div>
 
-                        <!-- Contador protegido contra nulos -->
+                        <!-- Contador -->
                         <div class="d-flex align-items-center">
                             <span class="badge bg-teal-light text-teal border border-teal-subtle px-3 py-2 rounded-pill fw-bold">
                                 <i class="fas fa-user-check me-1"></i>
@@ -178,61 +156,58 @@
                         </div>
                     </div>
 
-                    <!-- Tarjeta Principal Flotante Centrada -->
+                    <!-- Tabla -->
                     <div class="card card-dashboard border-0 shadow-lg w-100">
-                        <!-- Encabezado de Tabla/Grid -->
+                        <!-- Encabezado de columnas -->
                         <div class="d-flex text-uppercase fw-bold letter-spacing-1 dashboard-header-row">
-                            <div class="flex-fill text-start">USUARIO</div>
-                            <div class="flex-fill text-center">CORREO / TELÉFONO</div>
+                            <div class="flex-fill text-start">NOMBRE</div>
+                            <div class="flex-fill text-center">EMAIL</div>
                             <div class="flex-fill text-center">ROL</div>
                             <div class="flex-fill text-center">ESTADO</div>
                             <div class="flex-fill text-end" sec:authorize="hasRole('ROLE_ADMIN')">ACCIONES</div>
                         </div>
 
-                        <!-- Filas de Usuarios (Se renderiza si la lista existe y no está vacía) -->
+                        <!-- Filas -->
                         <div class="card-body p-0 bg-white" th:if="${usuarios != null and !#lists.isEmpty(usuarios)}">
                             <div th:each="u : ${usuarios}" class="dashboard-row px-4 py-3 border-bottom">
-                                <!-- Nombre y Usuario -->
-                                <div class="flex-fill d-flex align-items-center justify-content-center gap-3">
-                                    <div class="avatar-teal d-flex align-items-center justify-content-center rounded-circle">
+                                <!-- Nombre -->
+                                <div class="flex-fill d-flex align-items-center gap-3">
+                                    <div class="avatar-teal rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="fas fa-user"></i>
                                     </div>
-                                    <div class="d-flex flex-column">
-                                        <span class="fw-bold text-dark fs-6" th:text="${u.nombreCompleto}">Ana Gómez</span>
-                                        <small class="text-muted" th:text="'@' + ${u.username}">@agomez</small>
-                                    </div>
+                                    <span class="fw-bold text-dark fs-6" th:text="${u.nombre}">Nombre</span>
                                 </div>
 
-                                <!-- Correo / Teléfono -->
-                                <div class="flex-fill d-flex flex-column align-items-center justify-content-center">
+                                <!-- Email -->
+                                <div class="flex-fill d-flex align-items-center justify-content-center">
                                     <span class="fw-medium text-dark small" th:text="${u.email}">correo@ejemplo.com</span>
-                                    <small class="text-muted" th:text="${u.telefono}">+506 8888-8888</small>
                                 </div>
 
                                 <!-- Rol -->
                                 <div class="flex-fill d-flex align-items-center justify-content-center">
-                                    <span class="bg-teal-light text-teal rounded-pill px-3 py-2 fw-semibold" th:text="${u.rol != null ? u.rol.nombre : 'Sin Rol'}">
-                                        • MEDICO
+                                    <span class="bg-teal-light text-teal rounded-pill px-3 py-2 fw-semibold"
+                                          th:text="${u.rolAsignado != null ? u.rolAsignado.nombreRol : 'Sin Rol'}">
+                                        • Rol
                                     </span>
                                 </div>
 
                                 <!-- Estado -->
                                 <div class="flex-fill d-flex align-items-center justify-content-center gap-2">
-                                    <span th:if="${u.estaActivo}" class="status-dot active" title="Activo"></span>
-                                    <span th:if="${u.estaActivo}" class="fw-semibold text-success">Activo</span>
+                                    <span th:if="${u.activo}" class="status-dot active" title="Activo"></span>
+                                    <span th:if="${u.activo}" class="fw-semibold text-success">Activo</span>
 
-                                    <span th:unless="${u.estaActivo}" class="status-dot inactive" title="Inactivo"></span>
-                                    <span th:unless="${u.estaActivo}" class="fw-semibold text-muted">Inactivo</span>
+                                    <span th:unless="${u.activo}" class="status-dot inactive" title="Inactivo"></span>
+                                    <span th:unless="${u.activo}" class="fw-semibold text-muted">Inactivo</span>
                                 </div>
 
                                 <!-- Acciones -->
                                 <div class="flex-fill d-flex align-items-center justify-content-center" sec:authorize="hasRole('ROLE_ADMIN')">
                                     <div class="btn-group gap-2">
-                                        <a th:href="@{/usuarios/modifica/} + ${u.idUsuario}" class="btn btn-action-edit btn-sm rounded-circle" title="Editar">
+                                        <a th:href="@{/usuarios/modifica/} + ${u.id}" class="btn btn-action-edit btn-sm rounded-circle" title="Editar">
                                             <i class="fas fa-pen"></i>
                                         </a>
-                                        <a th:href="@{/usuarios/eliminar/} + ${u.idUsuario}" class="btn btn-action-delete btn-sm rounded-circle" title="Eliminar"
-                                           onclick="return confirm('¿Desea desactivar o eliminar este usuario?');">
+                                        <a th:href="@{/usuarios/eliminar/} + ${u.id}" class="btn btn-action-delete btn-sm rounded-circle" title="Eliminar"
+                                           onclick="return confirm('¿Desea eliminar este usuario?');">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </div>
@@ -240,7 +215,7 @@
                             </div>
                         </div>
 
-                        <!-- Estado Vacío (Se muestra si la lista es nula o está vacía) -->
+                        <!-- Estado vacío -->
                         <div th:if="${usuarios == null or #lists.isEmpty(usuarios)}" class="text-center text-muted py-5 bg-white">
                             <i class="fas fa-users-slash fa-3x mb-3 text-teal opacity-50"></i>
                             <p class="mb-0 fw-semibold">No se encontraron usuarios registrados.</p>

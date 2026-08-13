@@ -8,20 +8,33 @@
     <div class="login-container">
         <div class="login-card">
             <h3 class="login-header">MediCare - Registro</h3>
-            <form th:action="@{/registro}" method="post" th:object="${usuario}">
+            <form th:action="@{/registro}" th:object="${usuario}" method="POST">
+                <!-- Nombre -->
                 <div class="mb-3">
-                    <label class="form-label">Nombre completo</label>
-                    <input type="text" th:field="*{nombreCompleto}" class="form-control" required/>
+                    <label class="form-label">Nombre Completo</label>
+                    <input type="text" th:field="*{nombre}" class="form-control" placeholder="Ingrese su nombre completo" required/>
                 </div>
+
+                <!-- Correo -->
                 <div class="mb-3">
-                    <label class="form-label">Correo electrónico</label>
-                    <input type="email" th:field="*{correo}" class="form-control" required/>
+                    <label class="form-label">Correo</label>
+                    <input type="email" th:field="*{email}" class="form-control"  placeholder="Ingrese su correo" required/>
+                    <div th:if="${error}" class="text-danger small" th:text="${error}"></div>
                 </div>
+
+                <!-- Contraseña -->
                 <div class="mb-3">
                     <label class="form-label">Contraseña</label>
-                    <input type="password" th:field="*{password}" class="form-control" required/>
+                    <input type="password" th:field="*{password}" class="form-control" placeholder="Ingrese su contraseña" required/>
                 </div>
-                <button type="submit" class="btn btn-login w-100 text-white">Registrarse</button>
+
+                <!-- Botones -->
+                <button type="submit" class="btn btn-login w-100 text-white">
+                    <i class="fas fa-user-plus me-2"></i>Registrarse
+                </button>
+                <button type="button" class="btn btn-login w-100 text-white" onclick="window.location.href='/login'">
+                    Cancelar
+                </button>
             </form>
         </div>
     </div>

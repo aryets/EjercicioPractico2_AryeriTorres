@@ -1,7 +1,7 @@
 package MediCare.controller;
 
 import MediCare.domain.Usuario;
-import MediCare.service.RolService;
+import MediCare.repository.RolRepository;
 import MediCare.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +17,7 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @Autowired
-    private RolService rolService;
+    private RolRepository rolRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -26,14 +26,14 @@ public class UsuarioController {
     public String listarUsuarios(Model model) {
         model.addAttribute("usuario", new Usuario());
         model.addAttribute("usuarios", usuarioService.obtenerTodosLosUsuarios());
-        model.addAttribute("roles", rolService.obtenerTodosLosRoles());
+        model.addAttribute("roles", rolRepository.findAll());
         return "usuario/listado";
     }
 
     @PostMapping("/guardar")
     public String guardarUsuario(@ModelAttribute("usuario") Usuario usuario) {
-        if (usuario.getClaveAcceso() != null && !usuario.getClaveAcceso().isEmpty()) {
-            usuario.setClaveAcceso(passwordEncoder.encode(usuario.getClaveAcceso()));
+        if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         }
         usuarioService.guardarUsuario(usuario);
         return "redirect:/usuarios";

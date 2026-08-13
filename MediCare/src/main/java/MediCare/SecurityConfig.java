@@ -14,10 +14,18 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    @SuppressWarnings("deprecation")
     public PasswordEncoder passwordEncoder() {
-        // Permite validar contraseñas almacenadas en texto plano directo de la BD
-        return NoOpPasswordEncoder.getInstance();
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return rawPassword.toString(); // no encripta
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return rawPassword.toString().equals(encodedPassword); // compara texto plano
+            }
+        };
     }
 
     @Bean
@@ -26,6 +34,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                 // Recursos estáticos públicos
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+                .requestMatchers("/registro/**").permitAll()
                 // Rutas restringidas por rol
                 .requestMatchers("/citas/agregar", "/citas/guardar", "/citas/editar/**", "/citas/eliminar/**").hasAnyRole("ADMIN", "MEDICO")
                 .requestMatchers("/usuarios/**", "/roles/**").hasRole("ADMIN")

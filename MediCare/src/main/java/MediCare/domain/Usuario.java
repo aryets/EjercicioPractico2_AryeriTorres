@@ -5,69 +5,66 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long idUsuario;
+    private Long id;
 
     @Column(name = "nombre")
-    private String nombreCompleto;
+    private String nombre;
 
     @Column(name = "email", unique = true)
-    private String correo;
+    private String email;
 
-    @Column(name = "password")
-    private String claveAcceso;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Column(name = "activo")
-    private Boolean estadoActivo = true;
+    private Boolean activo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "rol_id")
     private Rol rolAsignado;
-
     public Usuario() {
     }
 
-    public Long getIdUsuario() {
-        return idUsuario;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getNombreCompleto() {
-        return nombreCompleto;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getClaveAcceso() {
-        return claveAcceso;
+    public String getPassword() {
+        return password;
     }
 
-    public void setClaveAcceso(String claveAcceso) {
-        this.claveAcceso = claveAcceso;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public Boolean getEstadoActivo() {
-        return estadoActivo;
+    public Boolean getActivo() {
+        return activo;
     }
 
-    public void setEstadoActivo(Boolean estadoActivo) {
-        this.estadoActivo = estadoActivo;
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
     public Rol getRolAsignado() {

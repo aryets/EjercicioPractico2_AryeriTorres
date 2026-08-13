@@ -1,30 +1,33 @@
 package MediCare.controller;
 
 import MediCare.domain.Usuario;
-import MediCare.service.CorreoService;
-import MediCare.service.UsuarioService;
+import MediCare.service.RegistroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/registro")
 public class RegistroController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private RegistroService registroService;
 
-    @Autowired
-    private CorreoService correoService;
-
-    @GetMapping("/registro")
-    public String mostrarFormularioRegistro() {
-        return "registro"; // vista registro.html
+    @GetMapping
+    public String mostrarFormulario(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "registro";
     }
 
-    @PostMapping("/registro")
-    public String registrar(@ModelAttribute Usuario usuario) {
-        usuarioService.guardarUsuario(usuario);
-        correoService.enviarCorreoBienvenida(usuario.getCorreo(), usuario.getNombreCompleto());
-        return "redirect:/login?registrado";
+    @PostMapping
+    public String registrar(@ModelAttribute("usuario") Usuario usuario, Model model) {
+        try {
+            registroService.registrar(usuario);
+            return "redirect:/";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "registro";
+        }
     }
 }

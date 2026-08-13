@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/fragmentos :: head}"/>
+    <body class="d-flex flex-column min-vh-100">
+        <header th:replace="~{general/fragmentos :: header}"/>
+        <main class="container flex-grow-1 my-3">
+            <section th:fragment="editar" class="py-5" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MEDICO')">
+                <div class="container d-flex justify-content-center">
+                    <div class="card card-medicare-clean shadow-sm w-100" style="max-width: 900px;">
+                        <div>
+                            <h3 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+                                <i class="fas fa-heartbeat text-teal"></i>
+                                <span>Editar Cita Médica</span>
+                            </h3>
+                            <p class="text-muted small mb-0">
+                                Actualice la información de la consulta
+                            </p>
+                        </div>
+
+                        <!-- Formulario -->
+                        <form th:action="@{/citas/guardar}" th:object="${cita}" method="POST" class="was-validated">
+                            <div class="card card-medicare-clean p-4 p-md-5">
+
+                                <!-- ID oculto -->
+                                <input type="hidden" name="idCita" th:value="${cita.idCita}"/>
+
+                                <div class="row g-4">
+                                    <!-- Nombre del Paciente -->
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold text-dark small text-uppercase">Nombre del Paciente</label>
+                                        <input type="text" class="input-medicare-box" 
+                                               name="nombrePaciente" th:value="${cita.nombrePaciente}" 
+                                               placeholder="Ej: María Rodríguez" required/>
+                                    </div>
+
+                                    <!-- Especialidad -->
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold text-dark small text-uppercase">Especialidad</label>
+                                        <input type="text" class="input-medicare-box" 
+                                               name="areaEspecialidad" th:value="${cita.areaEspecialidad}" 
+                                               placeholder="Ej: Odontología" required/>
+                                    </div>
+
+                                    <!-- Fecha -->
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold text-dark small text-uppercase">Fecha de Cita</label>
+                                        <input type="date" class="input-medicare-box" 
+                                               name="fechaCita" th:value="${cita.fechaCita}" required/>
+                                    </div>
+
+                                    <!-- Costo -->
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold text-dark small text-uppercase">Costo Consulta</label>
+                                        <span class="input-group-text fw-bold">₡</span>
+                                        <input type="number" min="0" step="10000" class="input-medicare-box" 
+                                               name="precioConsulta" th:value="${cita.precioConsulta}" 
+                                               placeholder="0.00" required/>
+                                    </div>
+                                </div>
+
+                                <!-- Estado -->
+                                <div class="mt-4 p-3 bg-light rounded-4 d-flex align-items-center justify-content-between">
+                                    <div class="form-check form-switch m-0">
+                                        <div class="form-check form-switch m-0">
+                                            <!-- Campo oculto para enviar false si no está marcado -->
+                                            <input type="hidden" name="estaActiva" value="false"/>
+
+                                            <!-- Checkbox que sobrescribe el valor si está marcado -->
+                                            <input class="form-check-input custom-switch-teal" type="checkbox" 
+                                                   name="estaActiva" id="estaActiva" value="true" th:checked="${cita.estaActiva}"/>
+                                            <label class="form-check-label fw-bold text-dark small ms-2" for="estaActiva">Activa</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Footer con botones -->
+                                <div class="mt-4 d-flex justify-content-end gap-2">
+                                    <button class="btn btn-medicare-submit text-white px-4 py-2 fw-bold shadow-sm" type="submit">
+                                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                                    </button>
+                                    <button type="button" 
+                                            class="btn btn-medicare-submit text-white px-4 py-2 fw-semibold shadow-sm"
+                                            onclick="window.location.href='/citas'">
+                                        <i class="fas fa-times me-2"></i>Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer th:replace="~{general/fragmentos :: footer}"/>
+    </body>
+</html>
