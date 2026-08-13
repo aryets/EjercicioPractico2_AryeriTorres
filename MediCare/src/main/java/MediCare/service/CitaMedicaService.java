@@ -1,6 +1,7 @@
 package MediCare.service;
 
 import MediCare.domain.CitaMedica;
+import MediCare.domain.Usuario;
 import MediCare.repository.CitaMedicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

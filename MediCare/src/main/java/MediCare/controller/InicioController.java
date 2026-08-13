@@ -15,4 +15,9 @@ public class InicioController {
     public String login() {
         return "login";
     }
+    
+    @GetMapping("/usuario")
+    public String usuarios() {
+        return "/usuario/listado"; // templates/usuario/listado.html
+    }
 }

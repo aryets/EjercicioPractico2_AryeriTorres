@@ -2,64 +2,68 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <!-- 1. FRAGMENTO HEAD -->
+    <!--FRAGMENTO HEAD -->
     <head th:fragment="head">
         <title>MediCare</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.min.css}"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
         <link rel="stylesheet" th:href="@{/css/estilos.css}"/> 
         <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
     </head>
-    <body>
 
-        <!-- 2. FRAGMENTO HEADER -->
-        <header th:fragment="header" class="header-medicare py-3">
-            <div class="container d-flex justify-content-between align-items-center">
-                <h1 class="h3 mb-0 brand-title">
-                    <i class="fas fa-hospital-user me-2"></i>MediCare
-                </h1>
-                <!-- 3. FRAGMENTO NAVBAR -->
-                <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-medicare mb-4">
-                    <div class="container">
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav me-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/citas}">
-                                        <i class="fas fa-calendar-alt me-1"></i>Citas Médicas
-                                    </a>
-                                </li>
-                                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                                    <a class="nav-link" th:href="@{/usuarios}">
-                                        <i class="fas fa-users me-1"></i>Usuarios
-                                    </a>
-                                </li>
-                            </ul>
+    <body>
+        <!--FRAGMENTO HEADER -->
+        <header th:fragment="header" class="header-medicare d-print-none">
+            <nav class="navbar navbar-medicare py-3 px-4">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+
+                        <!-- Logo + Marca -->
+                        <span class="brand d-inline-flex align-items-center me-4">
+                            <span class="brand-icon-wrapper me-2">
+                                <i class="fas fa-heartbeat"></i>
+                            </span>
+                            <span class="brand-title">MediCare</span>
+                        </span>
+
+                        <!-- Menú de navegación -->
+                        <a class="nav-link px-3" th:href="@{/citas}">
+                            <i class="fas fa-calendar-alt me-1"></i> Citas Médicas
+                        </a>
+                        <a class="nav-link px-3" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/usuario}">
+                            <i class="fas fa-users-cog me-1"></i> Usuarios
+                        </a>
+                        
+                        <!-- Área de usuario + Logout -->
+                        <div class="d-inline-flex align-items-center ms-auto">
+                            <span class="user-badge d-flex align-items-center me-3 px-3 py-1 rounded-pill">
+                                <i class="fas fa-user-circle me-2"></i>
+                                <strong sec:authentication="name"></strong>
+                            </span>
+                            <form th:action="@{/logout}" method="post" class="d-inline">
+                                <button class="btn btn-logout btn-sm px-3 d-flex align-items-center" type="submit">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
-                </nav>
-                <div class="d-flex align-items-center" sec:authorize="isAuthenticated()">
-                    <span class="me-3">
-                        <i class="fas fa-user me-1"></i>
-                        Usuario: <strong sec:authentication="name"></strong>
-                    </span>
-                    <form th:action="@{/logout}" method="post" class="d-inline">
-                        <button class="btn btn-logout btn-sm" type="submit">
-                            <i class="fas fa-sign-out-alt"></i> Salir
-                        </button>
-                    </form>
+
+                </div>
+            </nav>
+        </header>
+
+        <!-- FRAGMENTO FOOTER -->
+        <footer th:fragment="footer" class="footer-medicare text-center py-3 mt-auto d-print-none">
+            <div class="container">
+                <div class="d-flex justify-content-center align-items-center">
+                    <p class="mb-2 mb-md-0 copyright-text">
+                        &copy; 2026 <strong>MediCare</strong> — Todos los derechos reservados.
+                    </p>
                 </div>
             </div>
-        </header>
-        <!-- 4. FRAGMENTO FOOTER -->
-        <footer th:fragment="footer" class="footer-medicare text-center py-3">
-            <div class="container">
-                <p class="mb-0">&copy; 2026 MediCare - Todos los derechos reservados.</p>
-            </div>
         </footer>
+
     </body>
 </html>

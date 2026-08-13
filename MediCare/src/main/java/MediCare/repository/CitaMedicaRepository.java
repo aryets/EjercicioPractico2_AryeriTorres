@@ -11,6 +11,7 @@ import java.util.List;
 public interface CitaMedicaRepository extends JpaRepository<CitaMedica, Long> {
     // 1. Consulta derivada: Filtrar por estado de la cita (activas / inactivas)
     List<CitaMedica> findByEstaActiva(Boolean estaActiva);
+    
 
     // 2. Consulta derivada con Containing: Búsqueda parcial por nombre de la especialidad
     List<CitaMedica> findByAreaEspecialidadContainingIgnoreCase(String especialidad);

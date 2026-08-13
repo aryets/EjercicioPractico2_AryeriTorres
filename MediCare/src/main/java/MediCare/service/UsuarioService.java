@@ -1,6 +1,8 @@
 package MediCare.service;
 
+import MediCare.domain.Rol;
 import MediCare.domain.Usuario;
+import MediCare.repository.RolRepository;
 import MediCare.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    
+    @Autowired
+    private RolRepository rolRepository;
 
     @Autowired
     private CorreoService correoService;
@@ -30,11 +35,22 @@ public class UsuarioService {
     @Transactional
     public Usuario guardarUsuario(Usuario usuario) {
         boolean esNuevo = (usuario.getIdUsuario() == null);
+
+        // Si es nuevo y no tiene rol asignado, se le da PACIENTE por defecto
+        if (esNuevo && usuario.getRolAsignado() == null) {
+            Rol rolPaciente = rolRepository.findByNombreRol("PACIENTE")
+                    .orElseThrow(() -> new RuntimeException("El rol PACIENTE no existe en la BD"));
+            usuario.setRolAsignado(rolPaciente);
+        }
+
         Usuario usuarioGuardado = usuarioRepository.save(usuario);
 
-        // Envía el correo automático de bienvenida si es un usuario nuevo
+        // Envía correo de bienvenida solo si es nuevo
         if (esNuevo && usuarioGuardado.getCorreo() != null) {
-            correoService.enviarCorreoBienvenida(usuarioGuardado.getCorreo(), usuarioGuardado.getNombreCompleto());
+            correoService.enviarCorreoBienvenida(
+                    usuarioGuardado.getCorreo(),
+                    usuarioGuardado.getNombreCompleto()
+            );
         }
 
         return usuarioGuardado;

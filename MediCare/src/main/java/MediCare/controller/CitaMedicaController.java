@@ -14,7 +14,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/citas")
 public class CitaMedicaController {
-
+    
     @Autowired
     private CitaMedicaService citaMedicaService;
 

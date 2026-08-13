@@ -1,11 +1,25 @@
 body {
     background-color: #f0fdfd; /* verde agua muy suave */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* ocupa toda la pantalla */
+    flex-direction: column;
     margin: 0;
+}
+
+/* Ajuste para vistas normales que usan el footer al final */
+main, .container-main {
+    flex: 1;
+}
+
+/* ==========================================
+   LOGIN
+   ========================================== */
+.login-container {
+    min-height: 100vh;              
+    display: flex;                  
+    justify-content: center;        /* centra horizontal */
+    align-items: center;            /* centra vertical */
 }
 
 .login-card {
@@ -27,6 +41,7 @@ body {
 .btn-login {
     background-color: #26a69a; /* verde agua */
     border: none;
+    margin: 10px;
 }
 
 .btn-login:hover {
@@ -42,45 +57,316 @@ body {
     background-color: #e8f5e9;
     color: #2e7d32;
 }
-/* Header extendido */
+
+/* ==========================================
+   HEADER Y NAVBAR
+   ========================================== */
 .header-medicare {
-    background: linear-gradient(90deg, #26a69a, #00897b);
-    color: #fff;
     width: 100%;
-    margin: 0;
-    padding: 0;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 77, 64, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
 }
+
 .navbar-medicare {
     background-color: #004d40;
+    padding: 1rem 2rem;
 }
-.navbar-medicare .nav-link {
-    color: #e0f2f1 !important;
-    font-weight: 500;
+
+/* Logo */
+.brand {
+    display: inline-flex;
+    align-items: center;
+    padding-left: 20px;
 }
-.navbar-medicare .nav-link:hover {
+
+.brand-icon-wrapper {
+    background-color: #26a69a;
+    color: #ffffff;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+.brand-title {
+    color: #ffffff;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding-right: 50px;
+}
+
+/* Menú inline */
+.nav-link {
     color: #ffffff !important;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 10px;
+    text-decoration: none !important; /* elimina el subrayado */
+}
+.nav-link:hover {
     background-color: #00695c;
     border-radius: 6px;
 }
 
-/* Botón logout */
-.btn-logout {
-    background-color: #26a69a;
-    border: none;
-    color: #fff;
-}
-.btn-logout:hover {
-    background-color: #00796b;
-    color: #fff;
+.d-inline-flex {
+    display: inline-flex !important; /* fuerza a que todo quede en una sola línea */
+    gap: 1rem; /* espacio entre usuario y botón */
+    
 }
 
-/* Footer extendido */
+.user-badge {
+    color: #ffffff;
+    background-color: #00695c;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap; /* evita que se corte en varias líneas */
+    margin-left: 900px;
+}
+
+.btn-logout {
+    background-color: #00695c;
+    border-radius: 6px;
+    color: #ffffff;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+}
+
+.btn-logout:hover {
+    background-color: #26a69a;
+}
+
+
+/* ==========================================
+   FOOTER
+   ========================================== */
 .footer-medicare {
     background-color: #004d40;
     color: #e0f2f1;
+    border-top: 2px solid #26a69a;
     width: 100%;
+    text-align: center;
+    padding: 0.5rem 1rem;
 }
-.footer-medicare p {
-    margin: 0;
+
+
+/* Color Principal Teal / Turquesa */
+.bg-teal {
+    background-color: #0d9488 !important;
+}
+
+.text-teal {
+    color: #0d9488 !important;
+}
+
+.text-light-teal {
+    color: #99f6e4 !important;
+}
+
+.bg-teal-light {
+    background-color: #ccfbf1 !important;
+}
+
+.btn-teal {
+    background-color: #0d9488;
+    border-color: #0d9488;
+}
+
+.btn-teal:hover {
+    background-color: #0f766e;
+    border-color: #0f766e;
+}
+
+/* Estilo para los Focus de Inputs */
+.form-control:focus, .form-select:focus {
+    border-color: #0d9488;
+    box-shadow: 0 0 0 0.25rem rgba(13, 148, 136, 0.25);
+}
+
+/* Switch personalizado */
+.custom-switch:checked {
+    background-color: #0d9488;
+    border-color: #0d9488;
+}
+/* Transición suave para las filas de citas */
+.appointment-item {
+    transition: background-color 0.2s ease;
+    background-color: #ffffff;
+}
+
+.appointment-item:hover {
+    background-color: #f8fdfd; /* Destello verde agua sutil */
+}
+
+/* ==========================================
+   ESTILO FORMULARIO MINIMALISTA (MEDICARE)
+   ========================================== */
+.text-teal {
+    color: #0d9488 !important;
+}
+.filtros-inline {
+    display: flex;
+    gap: 20px;              /* espacio entre filtros */
+    align-items: flex-end;  /* alinear los botones con los inputs */
+    flex-wrap: nowrap;      /* evita que se bajen a otra línea */
+}
+
+.filtros-inline form {
+    display: flex;
+    flex-direction: column; /* label arriba, input+botón abajo */
+}
+
+/* Tarjeta Principal */
+.card-medicare-clean {
+    padding: 10px;
+    margin: 20px 0px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    max-width: 80%;
+}
+
+/* Inputs de Caja*/
+.input-medicare-box {
+    border: 1px solid #e2e8f0;
+    margin-left: 2px;
+    border-radius: 8px;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.65rem;
+    color: #334155;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.input-medicare-box:focus {
+    border-color: #14b8a6;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+    background-color: #ffffff;
+}
+
+/* Botón de Acción Principal (Ancho Completo como "Pay $150") */
+.btn-medicare-submit {
+    background-color: #26a69a;
+    color: #ffffff !important;
+    border: none;
+    margin: 7px;
+    padding: 7px;
+    border-radius: 5px;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-medicare-submit:hover {
+    background-color: #0f766e;
+    transform: translateY(-1px);
+}
+
+/* ==========================================
+   DISEÑO MODERNO DE DASHBOARD
+   ========================================== */
+.container {
+    margin: 0 auto; /* centra horizontalmente */
+    min-width: 70%;
+}
+
+/* Tarjeta Principal*/
+.card-dashboard {
+    border-radius: 28px !important;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(13, 148, 136, 0.1) !important;
+    margin-top: 20px;
+}
+
+/* Encabezado en una sola fila */
+.dashboard-header-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid #0d9488; /* línea separadora */
+    background-color: #26a69a !important;
+    font-size: 0.85rem;
+    color: #ffffff !important;
+}
+
+/* Filas de pacientes */
+.dashboard-row {
+    display: flex;
+    align-items: center;      
+    justify-content: space-between; 
+    border-color: #f1f5f9 !important;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Avatar Pequeño */
+.avatar-teal {
+    width: 38px;
+    height: 38px;
+    background-color: #ccfbf1;
+    color: #0d9488;
+    font-size: 0.9rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Badge estilo Tarea/Especialidad */
+.badge-medicare-task {
+    background-color: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.82rem;
+}
+
+/* Indicador de Estado (Punto de Color) */
+.status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.status-dot.active {
+    background-color: #10b981;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+.status-dot.inactive {
+    background-color: #9ca3af;
+}
+
+/* Botones de Acción Circulares */
+.btn-action-edit {
+    background-color: #fef3c7;
+    color: #d97706;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-action-edit:hover {
+    background-color: #f59e0b;
+    color: #ffffff;
+}
+
+.btn-action-delete {
+    background-color: #fee2e2;
+    color: #dc2626;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-action-delete:hover {
+    background-color: #ef4444;
+    color: #ffffff;
 }
